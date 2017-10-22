@@ -18,14 +18,31 @@ class Blog(db.Model):
         self.name = name
         self.body = body
 
-@app.route('/', methods = ['GET'])
+@app.route('/blog', methods=['GET'])
 def full_blog():
-    return render_template("full_blog.html")
+    post_id = request.args.get('id')
+    if (post_id):
+        post = Blog.query.get(post_id)
+        return render_template("one_post.html", post=post)
 
-@app.route('/', methods = ['POST'])
+@app.route('/new_post', methods = ['GET', 'POST'])
 def new_post():
-    return render_template("new_post.html")
+    if request.method == 'POST':    
+        new_name = request.form['name']
+        new_body = request.form['body']
+        new_post = Blog(new_name, new_body)
 
+        new_name_error = ""
+        new_body_error = ""
+
+        if new_name == "":
+            new_name_error = "You forgot a title"
+
+        if new_body == "":
+            new_body_error = "You forgot to write something"
+
+    else:
+        return render_template("new_post.html")
 
 if __name__ == '__main__':
     app.run()

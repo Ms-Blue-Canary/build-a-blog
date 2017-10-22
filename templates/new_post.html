@@ -1,22 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form method='POST'>
+    <form action = '/new_post' method='POST'>
 
         <label>
-            Name Your Post:
-            <input type="text" name='name' />
+            <h1> Name Your Post: </h1>
+            <input type="text" name='name'/>
         </label>
 
         <label>
-            Write a Post:
-            <input type="text" name='body' />
+            <h1> Write a Post:</h1>
+            <input type="text" name='body'/>
         </label>
-        <input type="submit" value='Submit!' />
+        <input type="submit" value='Submit!'/>
     </form>
-    {% for body in newpost %}
-        {{body}}
-        {% endfor %}
-
-    {% endif %}
 {% endblock %}
