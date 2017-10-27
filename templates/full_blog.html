@@ -2,14 +2,18 @@
 
 {% block content %}
 
-    <ul>    
-        {% for post in full_blog %}
-        <li>
-            <h3>
-                <a href="/blog?id={{ post.id }}">{{ post.name }}</a>
-            </h3>
-            <p>{{ post.body }}</p>
+    {% if post|length == 0 %}
+    <p>No posts yet</p>
+    {% else %}
+
+        <ul>    
+            {% for post in full_blog %}
+            <li>
+                <h3>
+                    <a href="/blog?id={{ post.id }}">{{ post.name }}</a>
+                </h3>
+                <p>{{ post.body }}</p>
             </li>
-        {% endfor %}  
-    </ul>          
+            {% endfor %}  
+        </ul>          
 {% endblock %}

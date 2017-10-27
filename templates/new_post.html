@@ -1,17 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form action = '/new_post' method='POST'>
 
-        <label>
-            <h1> Name Your Post: </h1>
-            <input type="text" name='name'/>
-        </label>
+    <h1>New Post</h1>
 
+    <form action = '/new_post' method="POST">
         <label>
-            <h1> Write a Post:</h1>
-            <input type="text" name='body'/>
+            <div>Name</div>
+            <input type="text" name="title" value="">
         </label>
-        <input type="submit" value='Submit!'/>
+        <label>
+            <div>Post</div>
+            <textarea name="body"></textarea>
+        </label>
+        <div class="error"></div>
+        <input type="submit" value='Submit'>
     </form>
+
 {% endblock %}
