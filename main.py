@@ -6,7 +6,7 @@ app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:blog@localhost:8889/build-a-blog'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
-
+app.secret_key = "It's_a_secret_to_everyone" 
 
 class Blog(db.Model):
 
@@ -24,28 +24,34 @@ def blog_entries():
     post_id = request.args.get('id')
     if (post_id):
         post = Blog.query.get(post_id)
-        return render_template("one_post.html", post=post)
+        return render_template("one_post.html", new_post=post)
     else:
         full_blog = Blog.query.all()
         return render_template('full_blog.html', full_blog=full_blog)
 
 @app.route('/new_post', methods = ['GET', 'POST'])
 def new_post():
+    post_id = request.args.get('id')
     if request.method == 'POST':    
         new_name = request.form['name']
         new_body = request.form['body']
-        new_post = Blog(new_name, new_body)
-
+    
         if new_name == "":
             flash ("You forgot a title", 'error')
+            return render_template("new_post.html")
 
         if new_body == "":
-            flash("You forgot to write something", 'error')
+            flash ("You forgot to write something", 'error')
+            return render_template("new_post.html")
+
+        else:
+            new_entry = Blog(new_name, new_body)
+            db.session.add(new_entry)
+            db.session.commit()
+            return render_template("one_post.html", new_post=new_entry)
 
     else:
-        db.session.add(new_post)
-        db.session.commit()
-        return redirect("new_post.html")
+        return render_template("new_post.html")
 
 if __name__ == '__main__':
     app.run()
